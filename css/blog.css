@@ -1,0 +1,294 @@
+.blog-section {
+    padding: 100px 0;
+    width: 100%;
+    background-color: transparent; /* Inherits page dark brown */
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+}
+
+.blog-inner-strip {
+    width: 100%;
+    height: 580px; /* Tightened height from bottom */
+    position: relative;
+    background: linear-gradient(rgba(78, 52, 39, 0.7), rgba(78, 52, 39, 0.7)), 
+                url('../assets/blog/Bg Of blog.png') center/cover no-repeat;
+    display: flex;
+    justify-content: center;
+}
+
+/* Half-top outside, half-bottom inside */
+.blog-display-title {
+    position: absolute;
+    top: -70px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--accent-font);
+    font-size: 5.5rem;
+    color: #F7E1BC;
+    background: linear-gradient(180deg, #F7E1BC 0%, #A68B7C 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+    text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    z-index: 20;
+    white-space: nowrap;
+}
+
+.blog-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 80px 0 2%;
+    position: relative;
+    z-index: 10;
+}
+
+.blog-slider-wrapper {
+    width: 100%;
+    overflow: hidden;
+    padding: 20px 0 50px;
+}
+
+.blog-slider {
+    display: flex;
+    gap: 2.5rem;
+    padding: 0 5%; /* Edge gaps for first/last elements */
+    transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.blog-card {
+    flex: 0 0 36vw; /* Calculated for ~2.5 cards visibility */
+    height: 400px;
+    background-color: rgba(144, 117, 101, 0.95);
+    border-radius: 40px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+    backdrop-filter: blur(5px);
+    transition: transform 0.3s ease;
+}
+
+.blog-card.detailed {
+    display: flex;
+    flex-direction: column;
+    padding: 30px 40px;
+    background-color: rgba(144, 117, 101, 0.95);
+    color: #fff;
+}
+
+.accent-font {
+    font-family: var(--accent-font) !important;
+}
+
+.card-title {
+    font-size: 1.7rem;
+    margin-bottom: 20px;
+    color: #fff;
+    font-family: var(--accent-font);
+}
+
+.card-text {
+    font-family: var(--base-font);
+    font-size: 0.95rem;
+    line-height: 2;
+    color: #ffffff;
+    margin-bottom: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.cups-image {
+    width: 250px;
+    height: auto;
+    margin-bottom: 12px;
+    object-fit: contain;
+    display: block;
+}
+
+.stats-container {
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.stats-image {
+    width: 250px;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin-top: -1rem;
+}
+
+.coffee-legend {
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.legend-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap; /* Force one line */
+}
+
+.dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+}
+
+.dot.steamed { background-color: #F7E1BC; }
+.dot.foam { background-color: #fff; }
+.dot.espresso { background-color: #4E3427; }
+
+.label {
+    font-size: 0.82rem;
+    color: #fff;
+    font-family: var(--base-font);
+    font-weight: 300;
+}
+
+.card-footer {
+    margin-top: auto;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.more-btn {
+    background: none !important;
+    border: none;
+    color: #fff;
+    font-family: var(--accent-font);
+    font-size: 2rem;
+    cursor: pointer;
+    text-decoration: none;
+    border-bottom: 3px solid #fff;
+    padding: 0 2px;
+    line-height: 0.9;
+}
+
+.blog-nav {
+    position: absolute;
+    bottom: 20px;
+    right: 5%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.blog-nav-btn {
+    background: none !important; /* Force no background */
+    border: none;
+    cursor: pointer;
+    width: 45px;
+    height: 45px;
+    transition: transform 0.3s ease;
+    padding: 0;
+}
+
+.more-btn:hover { opacity: 0.8; }
+
+/* Blog Modal Styles */
+.blog-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.blog-modal.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.b-modal-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(10px);
+    transition: opacity 0.4s ease;
+}
+
+.b-modal-content {
+    position: relative;
+    background: #4E3427;
+    width: 90%;
+    max-width: 900px;
+    padding: 60px;
+    border-radius: 40px;
+    box-shadow: 0 50px 100px rgba(0,0,0,0.5);
+    z-index: 10;
+    border: 1px solid rgba(255,255,255,0.1);
+    transform: scale(0.9) translateY(30px);
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); /* Bounce-in effect */
+}
+
+.blog-modal.show .b-modal-content {
+    transform: scale(1) translateY(0);
+}
+
+.b-modal-close {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2.5rem;
+    cursor: pointer;
+}
+
+.b-modal-title {
+    font-family: var(--accent-font);
+    font-size: 3rem;
+    color: #F7E1BC;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.b-modal-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.b-modal-item {
+    text-align: center;
+}
+
+.b-modal-item img {
+    width: 100px;
+    margin-bottom: 15px;
+}
+
+.b-modal-item h3 {
+    font-family: var(--accent-font);
+    color: #F7E1BC;
+    margin-bottom: 10px;
+}
+
+.b-modal-item p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.7);
+}
+
+@media (max-width: 768px) {
+    .b-modal-grid { grid-template-columns: 1fr; }
+    .b-modal-content { padding: 40px 20px; }
+}

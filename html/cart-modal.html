@@ -1,0 +1,112 @@
+<!-- Cart Modal -->
+<div id="cart-modal" class="cart-modal-overlay" aria-hidden="true">
+    <div class="cart-modal-panel">
+
+        <!-- Header -->
+        <div class="cart-header">
+            <div class="cart-header-left">
+                <img src="assets/ph_shopping-cart-light.png" width="20" height="20" alt="" style="opacity:0.7">
+                <h3 class="cart-title">Your Cart</h3>
+                <span class="cart-count-badge">3 items</span>
+            </div>
+            <button class="cart-close-btn" id="cart-modal-close" aria-label="Close cart">&#x2715;</button>
+        </div>
+
+        <!-- Items List -->
+        <div class="cart-items">
+
+            <div class="cart-item" data-id="1">
+                <img src="assets/Cup1.png" alt="Espresso" class="cart-item-img">
+                <div class="cart-item-details">
+                    <span class="cart-item-name">Double Espresso</span>
+                    <span class="cart-item-meta">Hot · Medium · No Sugar</span>
+                    <div class="cart-item-qty">
+                        <button class="qty-btn" data-action="decrease" data-id="1">−</button>
+                        <span class="qty-val" id="qty-1">1</span>
+                        <button class="qty-btn" data-action="increase" data-id="1">+</button>
+                    </div>
+                </div>
+                <div class="cart-item-right">
+                    <span class="cart-item-price" id="price-1">$4.50</span>
+                    <button class="cart-item-remove" data-id="1" aria-label="Remove">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="cart-item" data-id="2">
+                <img src="assets/Coffees.png" alt="Latte" class="cart-item-img">
+                <div class="cart-item-details">
+                    <span class="cart-item-name">Caramel Latte</span>
+                    <span class="cart-item-meta">Iced · Large · Extra Shot</span>
+                    <div class="cart-item-qty">
+                        <button class="qty-btn" data-action="decrease" data-id="2">−</button>
+                        <span class="qty-val" id="qty-2">2</span>
+                        <button class="qty-btn" data-action="increase" data-id="2">+</button>
+                    </div>
+                </div>
+                <div class="cart-item-right">
+                    <span class="cart-item-price" id="price-2">$12.00</span>
+                    <button class="cart-item-remove" data-id="2" aria-label="Remove">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="cart-item" data-id="3">
+                <img src="assets/Popularmenu Img.png" alt="Cold Brew" class="cart-item-img">
+                <div class="cart-item-details">
+                    <span class="cart-item-name">Cold Brew Special</span>
+                    <span class="cart-item-meta">Cold · Regular · Vanilla Syrup</span>
+                    <div class="cart-item-qty">
+                        <button class="qty-btn" data-action="decrease" data-id="3">−</button>
+                        <span class="qty-val" id="qty-3">1</span>
+                        <button class="qty-btn" data-action="increase" data-id="3">+</button>
+                    </div>
+                </div>
+                <div class="cart-item-right">
+                    <span class="cart-item-price" id="price-3">$5.50</span>
+                    <button class="cart-item-remove" data-id="3" aria-label="Remove">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Promo Code -->
+        <div class="cart-promo">
+            <input type="text" class="promo-input" id="promo-input" placeholder="Promo code">
+            <button class="promo-btn" id="promo-apply-btn">Apply</button>
+        </div>
+        <div class="promo-msg" id="promo-msg"></div>
+
+        <!-- Summary -->
+        <div class="cart-summary">
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <span id="cart-subtotal">$22.00</span>
+            </div>
+            <div class="summary-row">
+                <span>Delivery</span>
+                <span class="delivery-fee">$2.00</span>
+            </div>
+            <div class="summary-row discount-row" id="discount-row" style="display:none;">
+                <span>Discount (10%)</span>
+                <span id="discount-val" class="discount-green">−$0.00</span>
+            </div>
+            <div class="summary-divider"></div>
+            <div class="summary-row total-row">
+                <span>Total</span>
+                <span id="cart-total">$24.00</span>
+            </div>
+        </div>
+
+        <!-- Checkout Button -->
+        <button class="cart-checkout-btn" id="cart-checkout-btn">
+            Proceed to Checkout →
+        </button>
+
+        <p class="cart-note">Free delivery on orders above $30 · Secure payment</p>
+    </div>
+</div>

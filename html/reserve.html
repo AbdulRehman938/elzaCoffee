@@ -1,0 +1,86 @@
+<section class="reserve-section">
+    <div class="reserve-container">
+        <h2 class="reserve-display-title">Reserve a Table</h2>
+        
+        <div class="reserve-card">
+            <!-- Left Side Image -->
+            <div class="reserve-image">
+                <img src="assets/Reserve Img.png" alt="Reserve Table Illustration">
+            </div>
+
+            <!-- Right Side Form -->
+            <form id="reservation-form" class="reserve-form">
+                <!-- Date Row (Full Width) -->
+                <div class="form-group full-width" data-validate="Date is required">
+                    <div class="input-wrapper">
+                        <i class="icon-date"><img src="assets/material-symbols_calendar-today-outline-rounded.png" alt="calender" width="25" height="25" style="margin-top: 0px;"></i>
+                        <input type="text" id="reserve-date" placeholder="Date" readonly>
+                        <div class="custom-dropdown date-picker" id="date-picker-ui">
+                            <!-- Custom Date Picker will be injected here via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Time & Guest Row -->
+                <div class="form-row">
+                    <div class="form-group half-width" data-validate="Time is required">
+                        <div class="input-wrapper">
+                            <i class="icon-time"><img src="assets/Vector.png" alt="clock" width="25" height="25" style="margin-top: 0px;"></i>
+                            <input type="text" id="reserve-time" placeholder="Time" readonly>
+                            <div class="custom-dropdown time-picker" id="time-picker-ui">
+                                <!-- Custom Time Picker will be injected here via JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group half-width">
+                        <div class="input-wrapper custom-select-wrapper">
+                            <i class="icon-guest"><img src="assets/Vector (1).png" alt="guests" width="25" height="25" style="margin-top: 0px;"></i>
+                            <div class="custom-select" id="guest-select">
+                                <span class="selected-value">Guest</span>
+                                <i class="icon-arrow"><img src="assets/Arrows Button Down.png" alt="arrow" width="15" height="10" style="margin-top: 5px;"></i>
+                            </div>
+                            <ul class="select-options" id="guest-options">
+                                <li data-value="1">1 Person</li>
+                                <li data-value="2">2 Persons</li>
+                                <li data-value="3">3 Persons</li>
+                                <li data-value="4">4 Persons</li>
+                                <li data-value="5+">5+ Persons</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Name Row -->
+                <div class="form-group full-width" data-validate="Name is required">
+                    <div class="input-wrapper">
+                        <i class="icon-user"><img src="assets\Vector (2).png" alt="name" width="25" height="25" style="margin-top: 0px;"></i>
+                        <input type="text" id="reserve-name" placeholder="your name">
+                    </div>
+                </div>
+
+                <!-- Phone Row -->
+                <div class="form-group full-width" data-validate="Phone is required">
+                    <div class="input-wrapper">
+                        <i class="icon-phone"><img src="assets/material-symbols_phone-iphone-outline.png" alt="phone" width="25" height="25" style="margin-top: 0px;"></i>
+                        <input type="tel" id="reserve-phone" placeholder="your phone">
+                    </div>
+                </div>
+
+                <!-- Email & Submit Row -->
+                <div class="form-row align-center">
+                    <div class="form-group email-width" data-validate="Valid email required">
+                        <div class="input-wrapper">
+                            <i class="icon-email"><img src="assets/Vector copy.png" alt="email" width="25" height="25" style="margin-top: 0px;"></i>
+                            <input type="email" id="reserve-email" placeholder="your email">
+                        </div>
+                    </div>
+
+                    <div class="form-group btn-width">
+                        <button type="submit" class="btn-primary" id="reserve-btn">Reserve</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

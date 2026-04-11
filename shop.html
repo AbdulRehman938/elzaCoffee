@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop | elzaCoffee</title>
+    <link rel="icon" href="assets/logo.png">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/shop.css">
+    <link rel="stylesheet" href="css/cart-modal.css">
+</head>
+<body>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal-placeholder"></div>
+
+    <!-- Shop Page -->
+    <div class="shop-page">
+
+        <!-- Sticky Top Bar -->
+        <div class="shop-top-bar">
+            <a href="index.html" class="shop-logo">
+                <img src="assets/logo.png" alt="elzaCoffee" width="42" height="42">
+                <span>elzaCoffee</span>
+            </a>
+            <div class="shop-search-wrap">
+                <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="shop-search" class="shop-search" placeholder="Search coffee, beans, equipment...">
+            </div>
+            <a href="#" class="shop-cart-trigger" id="shop-cart-btn">
+                <img src="assets/ph_shopping-cart-light.png" alt="Cart" width="22" height="22">
+                <span class="cart-badge" id="shop-cart-badge">0</span>
+            </a>
+        </div>
+
+        <!-- Main Content: Sidebar + Grid -->
+        <div class="shop-container">
+
+            <!-- Sidebar Filters -->
+            <aside class="shop-sidebar" id="shop-sidebar">
+                <div class="filter-section">
+                    <h4 class="filter-title">Category</h4>
+                    <div class="filter-options" id="filter-category">
+                        <label class="filter-chip active" data-value="all"><input type="radio" name="cat" checked> All</label>
+                        <label class="filter-chip" data-value="espresso"><input type="radio" name="cat"> Espresso</label>
+                        <label class="filter-chip" data-value="latte"><input type="radio" name="cat"> Latte</label>
+                        <label class="filter-chip" data-value="cold-brew"><input type="radio" name="cat"> Cold Brew</label>
+                        <label class="filter-chip" data-value="beans"><input type="radio" name="cat"> Beans</label>
+                        <label class="filter-chip" data-value="equipment"><input type="radio" name="cat"> Equipment</label>
+                        <label class="filter-chip" data-value="pastry"><input type="radio" name="cat"> Pastries</label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h4 class="filter-title">Price Range</h4>
+                    <div class="price-range-wrap">
+                        <input type="range" id="price-max" min="0" max="50" value="50" class="price-slider">
+                        <div class="price-labels">
+                            <span>$0</span>
+                            <span id="price-max-label">$50</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h4 class="filter-title">Rating</h4>
+                    <div class="filter-options" id="filter-rating">
+                        <label class="filter-chip active" data-value="0"><input type="radio" name="rating" checked> All</label>
+                        <label class="filter-chip" data-value="4"><input type="radio" name="rating"> 4★ & up</label>
+                        <label class="filter-chip" data-value="4.5"><input type="radio" name="rating"> 4.5★ & up</label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h4 class="filter-title">Sort By</h4>
+                    <select id="sort-select" class="sort-select">
+                        <option value="popular">Most Popular</option>
+                        <option value="price-low">Price: Low → High</option>
+                        <option value="price-high">Price: High → Low</option>
+                        <option value="rating">Highest Rated</option>
+                        <option value="newest">Newest</option>
+                    </select>
+                </div>
+
+                <button class="filter-reset-btn" id="filter-reset">Reset All Filters</button>
+            </aside>
+
+            <!-- Products Area -->
+            <div class="shop-main">
+                <div class="shop-results-bar">
+                    <span id="results-count">Showing 50 products</span>
+                    <button class="mobile-filter-btn" id="mobile-filter-btn">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="9" y2="18"/></svg>
+                        Filters
+                    </button>
+                </div>
+                <div class="shop-grid" id="shop-grid">
+                    <!-- Products injected by JS -->
+                </div>
+                <div class="shop-load-more" id="load-more-wrap" style="display:none;">
+                    <button class="load-more-btn" id="load-more-btn">Load More</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/shop.js"></script>
+</body>
+</html>

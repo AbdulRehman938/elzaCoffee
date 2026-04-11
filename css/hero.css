@@ -1,0 +1,369 @@
+.hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-color: #221518; /* Dark base color */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+/* Corner Bulb Effect */
+.corner-bulb {
+    position: absolute;
+    top: -140px;
+    left: -140px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.21) 0%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    z-index: 5000;
+    pointer-events: none;
+    filter: blur(60px);
+}
+
+.hero-container {   
+    position: relative;
+    z-index: 10;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    align-items: center;
+}
+
+.hero-left {
+    flex: 0 0 60%;
+    height: 100%;
+    display: flex;
+    padding-left: 10%;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 0px;
+    position: relative;
+    z-index: 20; /* Ensure text is top layer */
+}
+
+.hero-right {
+    position: absolute;
+    right: 0;
+    width: 65%; /* Wider than half to encourage overlap */
+    height: 110%; 
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; 
+    z-index: 10;
+}
+
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20%;
+    gap: 4rem; /* Controls the vertical spacing between all elements */
+}
+
+.hero-main-img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    transform: translateY(0%); 
+    position: relative;
+    z-index: 10; /* Above the bg image */
+    
+    /* Synchronized Entrance Animation - Swapped to 2.5s for smoothness */
+    animation: slideInRight 2.5s cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+.hero-bg-img {
+    position: absolute;
+    height: 90%;
+    width: auto;
+    object-fit: contain;
+    right: 10%;
+    bottom: 5%;
+    z-index: 5; /* Behind the main cup */
+    opacity: 0.4; /* Subtle background presence */
+    transform: scale(1.1);
+    
+    /* Entrance Animation */
+    animation: slideInRight 3s cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Typography matching Image 2 */
+.hero-title {
+    font-family: var(--accent-font);
+    font-size: clamp(4rem, 12vw, 8rem);
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--accent-color);
+    line-height: 1.2; 
+    padding-left: 0.5rem;
+    overflow: hidden; /* Required for split-text y-axis animation */
+}
+
+.split-char {
+    display: inline-block;
+    will-change: transform, opacity;
+}
+
+.hero-subtitle {
+    color: #DABB9E;
+    font-size: 1.5rem;
+    max-width: 500px;
+    opacity: 0.8;
+}
+
+/* Buttons */
+.hero-btns {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.btn-primary, .btn-outline {
+    padding: 0.8rem 2.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+    border: 2px solid transparent; /* Required for the gradient border trick */
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    display: inline-block;
+}
+
+.btn-primary {
+    color: var(--text-color);
+    background-image: 
+        linear-gradient(var(--bg-medium), var(--bg-medium)), 
+        linear-gradient(to right, #E0A872 0%, #F8E4BE 44%, #FFF3E0 55%, #E0A872 100%);
+}
+
+.btn-outline {
+    color: var(--accent-color);
+    background-image: 
+        linear-gradient(var(--bg-dark), var(--bg-dark)), 
+        linear-gradient(to right, #E0A872 0%, #F8E4BE 44%, #FFF3E0 55%, #E0A872 100%);
+}
+
+.btn-primary:hover, .btn-outline:hover,
+.btn-primary:focus, .btn-outline:focus,
+.btn-primary:active, .btn-outline:active {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    background-image: none;
+    background-color: #F7E1BC;
+    border-color: #F7E1BC;
+    color: #221518; /* Dark text for contrast on light background */
+}
+
+/* Bottom Banner */
+.bottom-banner {
+    position: absolute;
+    bottom: 0%;
+    left: 16%; 
+    display: flex;
+    align-items: center;
+    background: radial-gradient(circle, #724e3f 0%, #54362A 88%);
+    padding: 0rem; /* Narrower horizontal padding */
+    border-radius: 40px 40px 0px 0px; 
+    gap: 0rem; /* tighter gap */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    z-index: 30;
+    width: 35%;
+    
+    /* Synchronized Entrance Animation - Swapped to 2.5s for smoothness */
+    animation: slideInBottom 2.5s cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+@keyframes slideInBottom {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.banner-img {
+    width: 200px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px; 
+    margin-right: -40px; /* Push image behind the text */
+    position: relative;
+    z-index: 1; /* Sit behind text */
+}
+
+.banner-img img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.banner-text {
+    position: relative;
+    z-index: 2;
+}
+
+.banner-text p {
+    font-family: var(--accent-font);
+    font-size: 1.7rem; /* More balanced cursive size */
+    color: #F7E1BC;
+    margin-bottom: -2rem;
+    margin-left: -1rem;
+}
+
+.hurry-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem;
+    background: transparent;
+    border: 1.5px solid #F7E1BC;
+    border-radius: 40px;
+    font-size: 0.8rem;
+    color: #F7E1BC;
+    gap: 0.8rem;
+    position: relative;
+    top: 50px;
+}
+
+.hurry-tag img {
+    width: 25px; /* Scaled down scooter */
+    height: auto;
+}
+
+/* Floating Beans */
+.floating-bean {
+    position: absolute;
+    font-size: 2rem;
+    opacity: 0.4;
+    z-index: 5;
+    animation: float 6s ease-in-out infinite;
+}
+
+.bean-1 { top: 20%; left: 50%; animation-delay: 0s; }
+.bean-2 { top: 60%; left: 45%; animation-delay: 2s; }
+.bean-3 { top: 10%; right: 5%; animation-delay: 4s; }
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0); }
+    50% { transform: translateY(-30px) rotate(20deg); }
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .hero {
+        height: auto;
+        min-height: 100vh;
+        padding: 120px 0 60px;
+        overflow-y: auto;
+        display: block;
+    }
+
+    .hero-container {
+        flex-direction: column;
+        justify-content: flex-start;
+        height: auto;
+    }
+
+    .hero-left {
+        flex: 0 0 auto;
+        width: 100%;
+        padding: 0 5%;
+        text-align: center;
+        align-items: center;
+        z-index: 30;
+    }
+
+    .hero-content {
+        padding-bottom: 0;
+        gap: 2rem;
+    }
+
+    .hero-right {
+        position: relative;
+        width: 100%;
+        height: 60vh;
+        margin-top: -30px; 
+        z-index: 10;
+        right: auto;
+    }
+
+    .hero-main-img {
+        width: 90%;
+        height: auto;
+    }
+
+    .hero-title {
+        font-size: clamp(3rem, 15vw, 5rem);
+        -webkit-text-stroke: 1px var(--accent-color);
+    }
+
+    .hero-subtitle {
+        margin: 0 auto;
+    }
+
+    .hero-btns {
+        justify-content: center;
+        margin-bottom: 2rem;
+    }
+
+    .bottom-banner {
+        position: relative;
+        left: auto;
+        bottom: auto;
+        width: 90%;
+        margin: 1.5rem auto 0;
+        padding: 1.5rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        border-radius: 40px;
+    }
+
+    .banner-img {
+        width: 120px;
+        margin-right: 0;
+        margin-top: 0;
+    }
+
+    .banner-text {
+        text-align: center;
+    }
+
+    .banner-text p {
+        margin-left: 0;
+        margin-bottom: 0;
+    }
+
+    .hurry-tag {
+        position: static;
+        margin: 1rem auto 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-btns {
+        flex-direction: column;
+        width: 100%;
+        padding: 0 10%;
+    }
+    
+    .btn-primary, .btn-outline {
+        width: 100%;
+        text-align: center;
+    }
+}

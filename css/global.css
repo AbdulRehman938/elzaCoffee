@@ -1,0 +1,17 @@
+/* Global Background Beans - Starting after Hero Section */
+.global-beans-bg {
+    position: absolute;
+    top: 0; /* Starts from the very top of the page */
+    left: 0;
+    width: 100%;
+    min-height: 200vh; /* Ensure it covers multiple sections */
+    z-index: -1; /* Behind all content but above the base background color */
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.global-beans-bg img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
