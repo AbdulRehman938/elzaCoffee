@@ -1,68 +1,29 @@
 /**
  * Shop / Catalog Page Logic
- * Generates 50 products, handles search, filter, sort, and pagination.
+ * Loads products from Supabase, then handles search, filter, sort, and pagination.
  */
 
 (function () {
-    // ─── Product Data (50 items) ─────────────────────────────────
-    const images = [
-        'assets/Cup1.png',
+    const productImages = [
         'assets/Coffees.png',
-        'assets/Popularmenu Img.png',
-        'assets/Proefpakket_page-0003 2 (no bg).png',
         'assets/Rectangle (no bg).png',
         'assets/Rectangle (no bg) (1).png',
         'assets/Rectangle (no bg) (2).png',
     ];
+    const catLabels = {
+        espresso: 'Espresso',
+        latte: 'Latte',
+        'cold-brew': 'Cold Brew',
+        beans: 'Coffee Beans',
+        equipment: 'Equipment',
+        pastry: 'Pastry',
+    };
 
-    const tags = ['new', 'sale', 'popular', null, null, null]; // weighted so most have no tag
-    const categories = ['espresso', 'latte', 'cold-brew', 'beans', 'equipment', 'pastry'];
-    const catLabels = { espresso: 'Espresso', latte: 'Latte', 'cold-brew': 'Cold Brew', beans: 'Coffee Beans', equipment: 'Equipment', pastry: 'Pastry' };
-
-    const productNames = [
-        'Classic Espresso', 'Double Shot Espresso', 'Ristretto', 'Americano',
-        'Espresso Macchiato', 'Long Black', 'Red Eye', 'Black Eye',
-        'Vanilla Latte', 'Caramel Latte', 'Hazelnut Latte', 'Mocha Latte',
-        'Oat Milk Latte', 'Iced Latte', 'Matcha Latte', 'Lavender Latte',
-        'Classic Cold Brew', 'Nitro Cold Brew', 'Vanilla Cold Brew', 'Caramel Cold Brew',
-        'Cold Brew Float', 'Coconut Cold Brew', 'Mocha Cold Brew', 'Honey Cold Brew',
-        'Ethiopian Yirgacheffe', 'Colombian Supremo', 'Sumatra Mandheling', 'Kenya AA',
-        'Brazilian Santos', 'Costa Rica Tarrazú', 'Guatemala Antigua', 'Jamaica Blue Mountain',
-        'Manual Grinder Pro', 'Pour Over Dripper', 'French Press 800ml', 'Ceramic Mug Set',
-        'Gooseneck Kettle', 'Digital Scale', 'Travel Tumbler', 'Cold Brew Maker',
-        'Butter Croissant', 'Chocolate Muffin', 'Almond Biscotti', 'Cinnamon Roll',
-        'Blueberry Scone', 'Banana Bread', 'Tiramisu Slice', 'Coffee Cookie',
-        'Espresso Brownie', 'Maple Pecan Danish',
-    ];
-
-    const products = productNames.map((name, i) => {
-        const cat = categories[i % categories.length];
-        const price = (() => {
-            if (cat === 'equipment') return +(12 + Math.random() * 38).toFixed(2);
-            if (cat === 'beans') return +(8 + Math.random() * 22).toFixed(2);
-            if (cat === 'pastry') return +(2 + Math.random() * 6).toFixed(2);
-            return +(3 + Math.random() * 7).toFixed(2);
-        })();
-        const rating = +(3.5 + Math.random() * 1.5).toFixed(1);
-        const tag = tags[i % tags.length];
-        const oldPrice = tag === 'sale' ? +(price * (1.15 + Math.random() * 0.2)).toFixed(2) : null;
-
-        return {
-            id: i + 1,
-            name,
-            category: cat,
-            categoryLabel: catLabels[cat],
-            price,
-            oldPrice,
-            rating,
-            reviews: Math.floor(10 + Math.random() * 290),
-            image: images[i % images.length],
-            tag,
-        };
-    });
+    let products = [];
 
     // ─── State ───────────────────────────────────────────────────
     let currentCategory = 'all';
+    let initialMaxPrice = 50;
     let currentMaxPrice = 50;
     let currentMinRating = 0;
     let currentSort = 'popular';
@@ -81,6 +42,84 @@
     const resetBtn = document.getElementById('filter-reset');
     const mobileFilterBtn = document.getElementById('mobile-filter-btn');
     const sidebar = document.getElementById('shop-sidebar');
+
+    function formatCategoryLabel(category) {
+        if (!category) return 'Other';
+        return category
+            .split('-')
+            .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+            .join(' ');
+    }
+
+    function pickFrontendImage(seed) {
+        const safeSeed = Number.isFinite(seed) ? seed : 1;
+        const idx = Math.abs((safeSeed * 9301 + 49297) % 233280) % productImages.length;
+        return productImages[idx];
+    }
+
+    function normalizeProduct(row, index) {
+        const category = (row.category || 'beans').toLowerCase();
+        const numericPrice = Number(row.price);
+        const numericRating = Number(row.rating);
+        const numericReviews = Number(row.reviews);
+        const numericOldPrice = row.old_price == null ? null : Number(row.old_price);
+
+        return {
+            id: row.id != null ? row.id : index + 1,
+            name: row.name || 'Unnamed Product',
+            category,
+            categoryLabel: row.category_label || catLabels[category] || formatCategoryLabel(category),
+            price: Number.isFinite(numericPrice) ? numericPrice : 0,
+            oldPrice: Number.isFinite(numericOldPrice) ? numericOldPrice : null,
+            rating: Number.isFinite(numericRating) ? numericRating : 0,
+            reviews: Number.isFinite(numericReviews) ? numericReviews : 0,
+            image: pickFrontendImage(row.id != null ? Number(row.id) : index + 1),
+            tag: row.tag || null,
+        };
+    }
+
+    function setPriceLimits(items) {
+        const maxPriceInProducts = items.reduce((max, item) => Math.max(max, item.price || 0), 0);
+        initialMaxPrice = Math.max(50, Math.ceil(maxPriceInProducts));
+        currentMaxPrice = initialMaxPrice;
+        priceSlider.max = String(initialMaxPrice);
+        priceSlider.value = String(initialMaxPrice);
+        priceLabel.textContent = `$${initialMaxPrice}`;
+    }
+
+    function renderStatusMessage(message) {
+        grid.innerHTML = `<div class="shop-status-message">${message}</div>`;
+        resultsCount.textContent = message;
+        loadMoreWrap.style.display = 'none';
+    }
+
+    async function loadProductsFromSupabase() {
+        if (!window.supabaseClient) {
+            renderStatusMessage('Supabase is not configured. Update js/supabase-config.js');
+            return;
+        }
+
+        renderStatusMessage('Loading products...');
+
+        const { data, error } = await window.supabaseClient
+            .from('products')
+            .select('*');
+
+        if (error) {
+            renderStatusMessage(`Failed to load products: ${error.message}`);
+            return;
+        }
+
+        products = (data || []).map(normalizeProduct);
+        setPriceLimits(products);
+
+        if (products.length === 0) {
+            renderStatusMessage('No products found in the database.');
+            return;
+        }
+
+        renderProducts();
+    }
 
     // ─── Filtering + Sorting ─────────────────────────────────────
     function getFilteredProducts() {
@@ -117,6 +156,11 @@
     function renderProducts() {
         const filtered = getFilteredProducts();
         const visible = filtered.slice(0, displayCount);
+
+        if (filtered.length === 0) {
+            renderStatusMessage('No products match your current filters.');
+            return;
+        }
 
         grid.innerHTML = visible.map(p => `
             <div class="product-card" data-id="${p.id}">
@@ -255,6 +299,6 @@
     });
 
     // ─── Initial Render ──────────────────────────────────────────
-    renderProducts();
+    loadProductsFromSupabase();
 
 })();
