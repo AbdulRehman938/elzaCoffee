@@ -13,19 +13,9 @@ async function initProductSlider() {
 
     if (!slider || !prevBtn || !nextBtn) return;
 
-    const recommendedImages = [
-        'assets/Coffees.png',
-        'assets/Rectangle (no bg).png',
-        'assets/Rectangle (no bg) (1).png',
-        'assets/Rectangle (no bg) (2).png',
-    ];
     let currentIndex = 0;
 
-    function pickFrontendImage(seed) {
-        const safeSeed = Number.isFinite(seed) ? seed : 1;
-        const idx = Math.abs((safeSeed * 9301 + 49297) % 233280) % recommendedImages.length;
-        return recommendedImages[idx];
-    }
+
 
     function getVisibleCards() {
         if (window.innerWidth <= 768) return 1;
@@ -63,7 +53,20 @@ async function initProductSlider() {
 
     function bindCardModalEvents() {
         getCards().forEach(card => {
-            card.addEventListener('click', () => {
+            // Modal Open Click
+            card.addEventListener('click', (e) => {
+                // If clicking cart button, intercept it
+                if (e.target.closest('.cart-btn')) {
+                    e.stopPropagation();
+                    if (!window.auth.isLoggedIn()) {
+                        if (window.openErrorModal) window.openErrorModal();
+                    } else {
+                        alert('Item added to cart!');
+                    }
+                    return;
+                }
+
+                const id = card.dataset.id;
                 const title = card.getAttribute('data-title');
                 const desc = card.getAttribute('data-desc');
                 const imgSrc = card.querySelector('.product-img').src;
@@ -72,6 +75,19 @@ async function initProductSlider() {
                 modalTitle.textContent = title;
                 modalDesc.textContent = desc;
                 modalImg.src = imgSrc;
+                
+                const buyBtn = document.getElementById('modal-buy-now');
+                if (buyBtn) {
+                    buyBtn.onclick = (e) => {
+                        e.preventDefault();
+                        closeModal();
+                        if (window.openProductDetails) {
+                            window.openProductDetails(id);
+                        } else {
+                            window.location.href = `shop.html?id=${id}`;
+                        }
+                    };
+                }
 
                 // 2. Show Modal
                 modal.classList.add('show');
@@ -96,11 +112,12 @@ async function initProductSlider() {
 
     function normalizeRecommendedProduct(row, index) {
         return {
+            id: row.id || index + 1,
             title: row.name || `Coffee ${index + 1}`,
             description:
                 row.description ||
                 'Our premium coffee beans are ethically sourced and masterfully roasted to bring out rich flavor profiles.',
-            image: pickFrontendImage(row.id != null ? Number(row.id) : index + 1),
+            image: window.pickProductImage(row.id != null ? Number(row.id) : index + 1, row.image || row.image_url),
         };
     }
 
@@ -108,7 +125,7 @@ async function initProductSlider() {
         slider.innerHTML = items
             .map(
                 item => `
-                <div class="product-card" data-title="${item.title}" data-desc="${item.description}">
+                <div class="product-card" data-id="${item.id}" data-title="${item.title}" data-desc="${item.description}">
                     <div class="product-image-box">
                         <div class="info-tag">ⓘ</div>
                         <img src="${item.image}" alt="${item.title}" class="product-img">
@@ -125,32 +142,35 @@ async function initProductSlider() {
             .join('');
     }
 
-    async function loadRecommendedFromSupabase() {
-        if (!window.supabaseClient) {
+    async function loadRecommendedFromAPI() {
+        if (!window.API_BASE_URL) {
             bindCardModalEvents();
             updateSlider();
             return;
         }
 
-        const { data, error } = await window.supabaseClient
-            .from('products')
-            .select('id, name, description, rating')
-            .order('rating', { ascending: false })
-            .limit(8);
+        try {
+            const data = await window.apiFetch('/products/recommended');
+            
+            if (!data || !data.length) {
+                bindCardModalEvents();
+                updateSlider();
+                return;
+            }
 
-        if (error || !data || !data.length) {
+            const recommendedProducts = data.map(normalizeRecommendedProduct);
+            renderRecommendedCards(recommendedProducts);
+            currentIndex = 0;
             bindCardModalEvents();
             updateSlider();
-            return;
+        } catch (error) {
+            console.error('Failed to load recommended products:', error);
+            bindCardModalEvents();
+            updateSlider();
         }
-
-        const recommendedProducts = data.map(normalizeRecommendedProduct);
-        renderRecommendedCards(recommendedProducts);
-        currentIndex = 0;
-        bindCardModalEvents();
-        updateSlider();
     }
 
+    // Event listeners
     nextBtn.addEventListener('click', e => {
         e.stopPropagation();
         const totalCards = getCards().length;
@@ -177,7 +197,7 @@ async function initProductSlider() {
     if (modalClose) modalClose.addEventListener('click', closeModal);
     if (modalOverlay) modalOverlay.addEventListener('click', closeModal);
 
-    await loadRecommendedFromSupabase();
+    await loadRecommendedFromAPI();
 
     // Handle Resize
     window.addEventListener('resize', () => {

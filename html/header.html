@@ -1,20 +1,49 @@
 <header class="main-header">
-    <a href="#" class="logo">
-        <img src="assets/logo.png" alt="logo" width="60px" height="60px">
-    </a>
-    
-    <nav class="nav-container">
-        <!-- New Icons Section -->
-        <div class="nav-icons">
-            <a href="#" class="nav-icon-link" id="account-btn">
-                <img src="assets/mdi-light_account.png" alt="Account" width="24px" height="24px">
-            </a>
-            <a href="#" class="nav-icon-link" id="cart-btn">
-                <img src="assets/ph_shopping-cart-light.png" alt="Cart" width="24px" height="24px">
-                <span class="cart-badge" id="cart-badge">3</span>
-            </a>
+    <div class="header-left">
+        <a href="#" class="logo">
+            <img src="assets/logo.png" alt="logo" width="60px" height="60px">
+        </a>
+
+        <!-- Guest: Login / Signup buttons -->
+        <div id="header-auth-guest" class="auth-guest-links" style="display: none;">
+            <button class="nav-auth-btn" id="header-login-btn">Login</button>
+            <button class="nav-auth-btn signup" id="header-signup-btn">Sign Up</button>
         </div>
 
+        <!-- Logged-in: User Pill -->
+        <div id="header-auth-user" class="user-pill" style="display: none;">
+            <div class="pill-content" id="user-pill-trigger">
+                <div class="pill-avatar">
+                    <img src="" alt="Profile" id="header-avatar">
+                    <div class="pill-fallback" id="header-fallback">AR</div>
+                </div>
+                <span class="pill-name" id="header-username">User</span>
+                <span class="pill-arrow">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                </span>
+            </div>
+            <!-- Dropdown Menu -->
+            <div class="user-dropdown" id="user-dropdown">
+                <button class="dropdown-item" id="header-edit-profile">
+                    <img src="assets/mdi-light_account.png" width="16" height="16" alt="">
+                    Edit Profile
+                </button>
+                <div class="dropdown-divider"></div>
+                <button class="dropdown-item logout" id="header-logout-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Log Out
+                </button>
+            </div>
+        </div>
+
+        <!-- Cart (Moved to Left, right of profile pill) -->
+        <a href="#" class="nav-icon-link" id="cart-btn" style="display: none;">
+            <img src="assets/ph_shopping-cart-light.png" alt="Cart" width="24px" height="24px">
+            <span class="cart-badge" id="cart-badge">0</span>
+        </a>
+    </div>
+    
+    <nav class="nav-container">
         <ul class="nav-links">
             <!-- Focused Indicator Div -->
             <div class="nav-indicator" id="nav-indicator"></div>

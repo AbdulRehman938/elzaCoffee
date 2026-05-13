@@ -7,31 +7,73 @@
     <link rel="icon" href="assets/logo.png">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/shop.css">
+    <link rel="stylesheet" href="css/account-modal.css">
     <link rel="stylesheet" href="css/cart-modal.css">
+    <link rel="stylesheet" href="css/error-modal.css">
+    <link rel="stylesheet" href="css/checkout-modal.css">
+    <link rel="stylesheet" href="css/product-detail-modal.css">
+
+
 </head>
 <body>
 
+    <!-- Account Modal -->
+    <div id="account-modal-placeholder"></div>
+
+    <!-- Product Detail Modal -->
+    <div id="product-detail-modal-placeholder"></div>
+
     <!-- Cart Modal -->
+
     <div id="cart-modal-placeholder"></div>
+
+
+    <!-- Error Modal -->
+    <div id="error-modal-placeholder"></div>
+
+    <!-- Checkout Modal -->
+    <div id="checkout-modal-placeholder"></div>
+
+    <!-- Cart Restore Modal -->
+    <div id="cart-restore-modal-placeholder"></div>
+
+
+
 
     <!-- Shop Page -->
     <div class="shop-page">
 
         <!-- Sticky Top Bar -->
         <div class="shop-top-bar">
-            <a href="index.html" class="shop-logo">
-                <img src="assets/logo.png" alt="elzaCoffee" width="42" height="42">
-                <span>elzaCoffee</span>
-            </a>
+            <div class="shop-top-left">
+                <a href="index.html" class="shop-logo">
+                    <img src="assets/logo.png" alt="elzaCoffee" width="42" height="42">
+                </a>
+                <a href="index.html" class="back-home-btn">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+                    Home
+                </a>
+            </div>
+
             <div class="shop-search-wrap">
                 <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                 <input type="text" id="shop-search" class="shop-search" placeholder="Search coffee, beans, equipment...">
             </div>
-            <a href="#" class="shop-cart-trigger" id="shop-cart-btn">
-                <img src="assets/ph_shopping-cart-light.png" alt="Cart" width="22" height="22">
-                <span class="cart-badge" id="shop-cart-badge">0</span>
-            </a>
+
+            <div class="shop-top-right">
+                <!-- Auth Buttons for Shop -->
+                <div id="header-auth-guest" class="shop-auth-guest">
+                    <button class="nav-auth-btn" id="header-login-btn">Login</button>
+                </div>
+                
+                <a href="#" class="shop-cart-trigger" id="shop-cart-btn">
+
+                    <img src="assets/ph_shopping-cart-light.png" alt="Cart" width="22" height="22">
+                    <span class="cart-badge" id="shop-cart-badge">0</span>
+                </a>
+            </div>
         </div>
+
 
         <!-- Main Content: Sidebar + Grid -->
         <div class="shop-container">
@@ -73,14 +115,21 @@
 
                 <div class="filter-section">
                     <h4 class="filter-title">Sort By</h4>
-                    <select id="sort-select" class="sort-select">
-                        <option value="popular">Most Popular</option>
-                        <option value="price-low">Price: Low → High</option>
-                        <option value="price-high">Price: High → Low</option>
-                        <option value="rating">Highest Rated</option>
-                        <option value="newest">Newest</option>
-                    </select>
+                    <div class="custom-dropdown" id="sort-dropdown">
+                        <div class="dropdown-selected">
+                            <span>Most Popular</span>
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                        </div>
+                        <div class="dropdown-options">
+                            <div class="option active" data-value="popular">Most Popular</div>
+                            <div class="option" data-value="price-low">Price: Low → High</div>
+                            <div class="option" data-value="price-high">Price: High → Low</div>
+                            <div class="option" data-value="rating">Highest Rated</div>
+                            <div class="option" data-value="newest">Newest</div>
+                        </div>
+                    </div>
                 </div>
+
 
                 <button class="filter-reset-btn" id="filter-reset">Reset All Filters</button>
             </aside>
@@ -104,8 +153,19 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-config.js"></script>
-    <script src="js/shop.js"></script>
+    <script src="js/api-config.js"></script>
+    <script src="js/header.js?v=1.2"></script>
+    <script src="js/error-modal.js"></script>
+    <script src="js/cart.js?v=1.2"></script>
+    <script src="js/product-detail.js?v=1.2"></script>
+    <script src="js/shop.js?v=1.2"></script>
+
+    <script src="js/checkout.js?v=1.2"></script>
+    <script src="js/renderer.js?v=1.2"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+
 </body>
 </html>
