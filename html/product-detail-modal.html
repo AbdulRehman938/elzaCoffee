@@ -1,0 +1,105 @@
+<div id="product-detail-modal" class="product-detail-overlay">
+    <div class="product-detail-card">
+        <button class="detail-close-btn" id="detail-modal-close">&times;</button>
+        
+        <div class="detail-content">
+            <!-- Left: Media Section -->
+            <div class="detail-media">
+                <div class="main-image-wrap">
+                    <img id="detail-main-image" src="" alt="Product Image">
+                    <div class="detail-tag" id="detail-tag"></div>
+                </div>
+                <div class="thumbnail-strip" id="detail-thumbnails">
+                    <!-- Thumbnails injected by JS -->
+                </div>
+            </div>
+
+            <!-- Right: Info Section -->
+            <div class="detail-info">
+                <div class="detail-header">
+                    <span class="detail-category" id="detail-category">Category</span>
+                    <h2 class="detail-title" id="detail-title">Product Name</h2>
+                    <div class="detail-rating-wrap">
+                        <div class="stars" id="detail-stars"></div>
+                        <span class="rating-text" id="detail-rating-text">(4.8 • 120 reviews)</span>
+                    </div>
+                </div>
+
+                <div class="detail-pricing">
+                    <div class="price-main">
+                        <span class="currency">$</span>
+                        <span class="amount" id="detail-price">0.00</span>
+                    </div>
+                    <span class="old-price" id="detail-old-price"></span>
+                    <span class="discount-pill" id="detail-discount"></span>
+                </div>
+
+                <!-- Tabs -->
+                <div class="detail-tabs">
+                    <button class="tab-btn active" data-tab="description">Overview</button>
+                    <button class="tab-btn" data-tab="specs">Technical Info</button>
+                    <button class="tab-btn" data-tab="reviews">Reviews</button>
+                </div>
+
+                <div class="tab-content-wrap">
+                    <!-- Overview Tab -->
+                    <div class="tab-pane active" id="tab-description">
+                        <p class="detail-desc" id="detail-description">
+                            Loading description...
+                        </p>
+                        <div class="use-instructions">
+                            <h4>How to Use</h4>
+                            <p id="detail-usage">Loading instructions...</p>
+                        </div>
+                    </div>
+
+                    <!-- Technical Tab -->
+                    <div class="tab-pane" id="tab-specs">
+                        <div class="specs-grid">
+                            <div class="spec-item">
+                                <span class="spec-label">Manufacturing</span>
+                                <span class="spec-value" id="detail-mfg">--</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Expiry Date</span>
+                                <span class="spec-value" id="detail-exp">--</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Weight</span>
+                                <span class="spec-value" id="detail-weight">--</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Origin</span>
+                                <span class="spec-value" id="detail-origin">--</span>
+                            </div>
+                        </div>
+                        <div class="ingredients-wrap">
+                            <h4>Ingredients</h4>
+                            <p id="detail-ingredients">--</p>
+                        </div>
+                    </div>
+
+                    <!-- Reviews Tab -->
+                    <div class="tab-pane" id="tab-reviews">
+                        <div class="reviews-list" id="detail-reviews-list">
+                            <!-- Reviews injected by JS -->
+                            <div class="empty-reviews">No reviews yet. Be the first to rate this product!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-actions">
+                    <div class="qty-selector">
+                        <button class="qty-btn" id="detail-qty-minus">-</button>
+                        <span id="detail-qty-value">1</span>
+                        <button class="qty-btn" id="detail-qty-plus">+</button>
+                    </div>
+                    <button class="detail-add-btn" id="detail-add-to-cart">
+                        <img src="assets/ph_shopping-cart-light.png" width="20" height="20" alt="">
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

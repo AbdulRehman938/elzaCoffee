@@ -101,7 +101,11 @@ function initTestimonialsSlider() {
                 emailError.style.display = "block";
             } else {
                 emailError.style.display = "none";
-                alert("Thank you for subscribing!");
+                if (window.showToast) {
+                    window.showToast("Thank you for subscribing!");
+                } else {
+                    alert("Thank you for subscribing!");
+                }
                 emailInput.value = '';
             }
         });

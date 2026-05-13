@@ -6,19 +6,25 @@
     <title>elzaCoffee | Premium Coffee Experience</title>
     <link rel="icon" href="assets/logo.png">
     <!-- Combined styles for the main page -->
-    <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/hero.css">
-    <link rel="stylesheet" href="css/story.css">
-    <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/services.css">
-    <link rel="stylesheet" href="css/reserve.css">
-    <link rel="stylesheet" href="css/recommanded.css">
-    <link rel="stylesheet" href="css/menu.css">
-    <link rel="stylesheet" href="css/blog.css">
-    <link rel="stylesheet" href="css/testimonials.css">
-    <link rel="stylesheet" href="css/footer.css">
-    <link rel="stylesheet" href="css/account-modal.css">
-    <link rel="stylesheet" href="css/cart-modal.css">
+    <link rel="stylesheet" href="css/header.css?v=1.2">
+    <link rel="stylesheet" href="css/hero.css?v=1.2">
+    <link rel="stylesheet" href="css/story.css?v=1.2">
+    <link rel="stylesheet" href="css/global.css?v=1.2">
+    <link rel="stylesheet" href="css/services.css?v=1.2">
+    <link rel="stylesheet" href="css/reserve.css?v=1.2">
+    <link rel="stylesheet" href="css/recommanded.css?v=1.2">
+    <link rel="stylesheet" href="css/menu.css?v=1.2">
+    <link rel="stylesheet" href="css/blog.css?v=1.2">
+    <link rel="stylesheet" href="css/testimonials.css?v=1.2">
+    <link rel="stylesheet" href="css/footer.css?v=1.2">
+    <link rel="stylesheet" href="css/account-modal.css?v=1.2">
+    <link rel="stylesheet" href="css/cart-modal.css?v=1.2">
+    <link rel="stylesheet" href="css/checkout-modal.css?v=1.2">
+    <link rel="stylesheet" href="css/error-modal.css?v=1.2">
+    <link rel="stylesheet" href="css/product-detail-modal.css?v=1.2">
+
+
+
 
 </head>
 <body>
@@ -28,6 +34,21 @@
 
     <!-- Cart Modal -->
     <div id="cart-modal-placeholder"></div>
+    
+    <!-- Error Modal -->
+    <div id="error-modal-placeholder"></div>
+
+    <!-- Checkout Modal -->
+    <div id="checkout-modal-placeholder"></div>
+
+    <!-- Cart Restore Modal -->
+    <div id="cart-restore-modal-placeholder"></div>
+
+    <!-- Product Detail Modal -->
+    <div id="product-detail-modal-placeholder"></div>
+
+
+
 
     <!-- Decorative Corner Bulb -->
     <div class="corner-bulb"></div>
@@ -46,7 +67,7 @@
             </div>
 
             <!-- Story Section -->
-            <div id="story-placeholder"></div>
+            <div id="story-placeholder" data-section="story"></div>
 
             <!-- Services Section -->
             <div id="services-placeholder" data-section="services"></div>
@@ -75,17 +96,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://assets.codepen.io/16327/SplitText3.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-config.js"></script>
+    <script src="js/api-config.js?v=1.2"></script>
 
     <!-- Scripts -->
-    <script src="js/header.js"></script>
-    <script src="js/hero.js"></script>
-    <script src="js/story.js"></script>
-    <script src="js/reserve.js"></script>
-    <script src="js/recommanded.js"></script>
-    <script src="js/blog.js"></script>
-    <script src="js/testimonials.js"></script>
-    <script src="js/renderer.js"></script>
+    <script src="js/header.js?v=1.2"></script>
+    <script src="js/cart.js?v=1.2"></script>
+    <script src="js/checkout.js?v=1.2"></script>
+    <script src="js/hero.js?v=1.2"></script>
+    <script src="js/product-detail.js?v=1.2"></script>
+
+    <script src="js/story.js?v=1.2"></script>
+    <script src="js/reserve.js?v=1.2"></script>
+    <script src="js/error-modal.js?v=1.2"></script>
+
+    <script src="js/recommanded.js?v=1.2"></script>
+    <script src="js/menu.js?v=1.2"></script>
+    <script src="js/blog.js?v=1.2"></script>
+    <script src="js/testimonials.js?v=1.2"></script>
+    <script src="js/renderer.js?v=1.2"></script>
+
 </body>
 </html>

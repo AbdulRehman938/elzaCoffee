@@ -118,7 +118,7 @@
 }
 
 .item-price { font-size: 1.25rem; opacity: 0.9; font-weight: 300; }
-.item-name { font-size: 2.2rem; }
+.item-name { font-size: 1.6rem; }
 
 /* The Stylized Line */
 .item-line {
@@ -163,6 +163,7 @@
     justify-content: flex-end;
     padding-right: 5%;
     margin-top: -2rem;
+    cursor: pointer;
 }
 
 .our-menu-link {
@@ -174,6 +175,7 @@
     font-size: 1.8rem;
     text-decoration: none;
     transition: opacity 0.3s;
+    cursor: pointer;
 }
 
 .our-menu-link:hover {

@@ -4,12 +4,6 @@
  */
 
 (function () {
-    const productImages = [
-        'assets/Coffees.png',
-        'assets/Rectangle (no bg).png',
-        'assets/Rectangle (no bg) (1).png',
-        'assets/Rectangle (no bg) (2).png',
-    ];
     const catLabels = {
         espresso: 'Espresso',
         latte: 'Latte',
@@ -35,6 +29,15 @@
     const resultsCount = document.getElementById('results-count');
     const loadMoreWrap = document.getElementById('load-more-wrap');
     const loadMoreBtn = document.getElementById('load-more-btn');
+    const shopCartBtn = document.getElementById('shop-cart-btn');
+
+    function checkAuthVisibility() {
+        const isLoggedIn = window.auth?.isLoggedIn();
+        if (shopCartBtn) {
+            shopCartBtn.style.display = isLoggedIn ? 'flex' : 'none';
+        }
+    }
+
     const searchInput = document.getElementById('shop-search');
     const priceSlider = document.getElementById('price-max');
     const priceLabel = document.getElementById('price-max-label');
@@ -51,11 +54,7 @@
             .join(' ');
     }
 
-    function pickFrontendImage(seed) {
-        const safeSeed = Number.isFinite(seed) ? seed : 1;
-        const idx = Math.abs((safeSeed * 9301 + 49297) % 233280) % productImages.length;
-        return productImages[idx];
-    }
+
 
     function normalizeProduct(row, index) {
         const category = (row.category || 'beans').toLowerCase();
@@ -73,7 +72,7 @@
             oldPrice: Number.isFinite(numericOldPrice) ? numericOldPrice : null,
             rating: Number.isFinite(numericRating) ? numericRating : 0,
             reviews: Number.isFinite(numericReviews) ? numericReviews : 0,
-            image: pickFrontendImage(row.id != null ? Number(row.id) : index + 1),
+            image: window.pickProductImage(row.id != null ? Number(row.id) : index + 1, row.image || row.image_url),
             tag: row.tag || null,
         };
     }
@@ -93,32 +92,28 @@
         loadMoreWrap.style.display = 'none';
     }
 
-    async function loadProductsFromSupabase() {
-        if (!window.supabaseClient) {
-            renderStatusMessage('Supabase is not configured. Update js/supabase-config.js');
+    async function loadProductsFromAPI() {
+        if (!window.API_BASE_URL) {
+            renderStatusMessage('API is not configured. Update js/api-config.js');
             return;
         }
 
         renderStatusMessage('Loading products...');
 
-        const { data, error } = await window.supabaseClient
-            .from('products')
-            .select('*');
+        try {
+            const data = await window.apiFetch('/products');
+            products = (data || []).map(normalizeProduct);
+            setPriceLimits(products);
 
-        if (error) {
+            if (products.length === 0) {
+                renderStatusMessage('No products found in the database.');
+                return;
+            }
+
+            renderProducts();
+        } catch (error) {
             renderStatusMessage(`Failed to load products: ${error.message}`);
-            return;
         }
-
-        products = (data || []).map(normalizeProduct);
-        setPriceLimits(products);
-
-        if (products.length === 0) {
-            renderStatusMessage('No products found in the database.');
-            return;
-        }
-
-        renderProducts();
     }
 
     // ─── Filtering + Sorting ─────────────────────────────────────
@@ -162,29 +157,49 @@
             return;
         }
 
-        grid.innerHTML = visible.map(p => `
-            <div class="product-card" data-id="${p.id}">
-                <div class="product-img-wrap">
-                    ${p.tag ? `<span class="product-tag ${p.tag}">${p.tag}</span>` : ''}
-                    <img src="${p.image}" alt="${p.name}" class="product-img" loading="lazy">
-                </div>
-                <div class="product-body">
-                    <div class="product-category">${p.categoryLabel}</div>
-                    <div class="product-name" title="${p.name}">${p.name}</div>
-                    <div class="product-rating">
-                        <span class="product-stars">${renderStars(p.rating)}</span>
-                        <span class="product-rating-num">(${p.reviews})</span>
+        grid.innerHTML = visible.map(p => {
+            const isLoggedIn = window.auth?.isLoggedIn();
+            const currentCart = window.cartSystem ? window.cartSystem.getCart() : [];
+            const isInCart = isLoggedIn && currentCart.some(item => Number(item.id) === Number(p.id));
+            
+            return `
+                <div class="product-card ${isInCart ? 'selected' : ''}" data-id="${p.id}">
+
+
+                    <div class="product-img-wrap">
+                        ${p.tag ? `<span class="product-tag ${p.tag}">${p.tag}</span>` : ''}
+                        <img src="${p.image}" alt="${p.name}" class="product-img" loading="lazy">
                     </div>
-                    <div class="product-footer">
-                        <div>
-                            <span class="product-price">$${p.price.toFixed(2)}</span>
-                            ${p.oldPrice ? `<span class="product-old-price">$${p.oldPrice.toFixed(2)}</span>` : ''}
+                    <div class="product-body">
+                        <div class="product-category">${p.categoryLabel}</div>
+                        <div class="product-name" title="${p.name}">${p.name}</div>
+                        <div class="product-rating">
+                            <span class="product-stars">${renderStars(p.rating)}</span>
+                            <span class="product-rating-num">(${p.reviews})</span>
                         </div>
-                        <button class="product-add-btn" title="Add to cart" data-id="${p.id}">+</button>
+                        <div class="product-footer">
+                            <div>
+                                <span class="product-price">$${p.price.toFixed(2)}</span>
+                                ${p.oldPrice ? `<span class="product-old-price">$${p.oldPrice.toFixed(2)}</span>` : ''}
+                            </div>
+                            <div class="product-actions-wrap">
+                                <button class="product-detail-btn" title="View Details" onclick="event.stopPropagation(); openProductDetails(${p.id})">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                                </button>
+                                ${isLoggedIn ? `
+                                    <button class="product-add-btn ${isInCart ? 'selected' : ''}" title="${isInCart ? 'Remove from cart' : 'Add to cart'}" data-id="${p.id}">
+                                        ${isInCart ? '✓' : '+'}
+                                    </button>
+                                ` : ''}
+                            </div>
+
+                        </div>
+
                     </div>
                 </div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
+
 
         resultsCount.textContent = `Showing ${visible.length} of ${filtered.length} products`;
         loadMoreWrap.style.display = displayCount < filtered.length ? 'block' : 'none';
@@ -222,11 +237,62 @@
         renderProducts();
     });
 
-    // Sort
-    sortSelect.addEventListener('change', () => {
-        currentSort = sortSelect.value;
-        renderProducts();
-    });
+    // Custom Sort Dropdown Logic
+    const dropdown = document.getElementById('sort-dropdown');
+    const dropdownSelected = dropdown?.querySelector('.dropdown-selected');
+    const dropdownOptions = dropdown?.querySelector('.dropdown-options');
+    const options = dropdown?.querySelectorAll('.option');
+
+    if (dropdownSelected && dropdownOptions) {
+        dropdownSelected.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = dropdown.classList.toggle('open');
+            if (isOpen) {
+                gsap.to(dropdownOptions, { 
+                    autoAlpha: 1, 
+                    y: 0, 
+                    duration: 0.4, 
+                    ease: "power3.out" 
+                });
+            } else {
+                gsap.to(dropdownOptions, { 
+                    autoAlpha: 0, 
+                    y: 10, 
+                    duration: 0.3, 
+                    ease: "power3.in" 
+                });
+            }
+        });
+
+        options.forEach(opt => {
+            opt.addEventListener('click', () => {
+                const val = opt.dataset.value;
+                const text = opt.textContent;
+                
+                // Update UI
+                dropdownSelected.querySelector('span').textContent = text;
+                options.forEach(o => o.classList.remove('active'));
+                opt.classList.add('active');
+                
+                // Close dropdown
+                dropdown.classList.remove('open');
+                gsap.to(dropdownOptions, { autoAlpha: 0, y: 10, duration: 0.3 });
+                
+                // Trigger Sort
+                currentSort = val;
+                renderProducts();
+            });
+        });
+
+        // Close when clicking outside
+        document.addEventListener('click', () => {
+            if (dropdown.classList.contains('open')) {
+                dropdown.classList.remove('open');
+                gsap.to(dropdownOptions, { autoAlpha: 0, y: 10, duration: 0.3 });
+            }
+        });
+    }
+
 
     // Search (debounced)
     let searchTimeout;
@@ -279,15 +345,58 @@
         }
     });
 
+    // Add to cart click handler
+    if (grid) {
+        grid.addEventListener('click', (e) => {
+            const btn = e.target.closest('.product-add-btn');
+            const card = e.target.closest('.product-card');
+            
+            if (btn || card) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const targetCard = card || btn.closest('.product-card');
+                const id = Number(targetCard.dataset.id);
+                const product = products.find(p => Number(p.id) === id);
+                
+                if (product && window.cartSystem) {
+                    if (!window.auth.isLoggedIn()) {
+                        if (window.openErrorModal) window.openErrorModal();
+                        return;
+                    }
+
+                    const currentCart = window.cartSystem.getCart();
+                    const isInCart = currentCart.some(item => Number(item.id) === id);
+
+                    if (isInCart) {
+                        window.cartSystem.removeItem(id);
+                    } else {
+                        window.cartSystem.addItem(product);
+                        // Animation safety check
+                        const targetBtn = targetCard.querySelector('.product-add-btn');
+                        if (targetBtn && typeof gsap !== 'undefined') {
+                            gsap.from(targetBtn, { scale: 1.5, duration: 0.3, ease: "back.out(2)" });
+                        }
+                    }
+                }
+            }
+
+
+        });
+    }
+
+
+
     // Cart button on shop page
-    const shopCartBtn = document.getElementById('shop-cart-btn');
     if (shopCartBtn) {
+
         shopCartBtn.addEventListener('click', (e) => {
             e.preventDefault();
             const modal = document.getElementById('cart-modal');
             if (modal) { modal.classList.add('open'); document.body.style.overflow = 'hidden'; }
         });
     }
+
 
     // Close cart modal
     document.addEventListener('click', (e) => {
@@ -298,7 +407,21 @@
         }
     });
 
-    // ─── Initial Render ──────────────────────────────────────────
-    loadProductsFromSupabase();
+    // Listen for cart changes (e.g. from the modal) to update card highlights
+    window.addEventListener('cartUpdated', () => {
+        renderProducts();
+    });
 
+    // ─── Initial Render ──────────────────────────────────────────
+    if (grid) {
+        loadProductsFromAPI();
+        checkAuthVisibility();
+        window.addEventListener('authChange', () => {
+            checkAuthVisibility();
+            renderProducts();
+        });
+    }
 })();
+
+
+

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Information | elzaCoffee</title>
+    <link rel="icon" href="assets/logo.png">
+    <link rel="stylesheet" href="css/header.css?v=1.2">
+    <link rel="stylesheet" href="css/footer.css?v=1.2">
+    <link rel="stylesheet" href="css/global.css?v=1.2">
+    <link rel="stylesheet" href="css/info.css?v=1.2">
+    <link rel="stylesheet" href="css/account-modal.css?v=1.2">
+    <link rel="stylesheet" href="css/cart-modal.css?v=1.2">
+    <link rel="stylesheet" href="css/error-modal.css?v=1.2">
+</head>
+<body>
+    <div id="account-modal-placeholder"></div>
+    <div id="cart-modal-placeholder"></div>
+    <div id="error-modal-placeholder"></div>
+
+    <div id="global-wrapper" style="max-width: 1600px; margin: 0 auto; width: 100%; position: relative;">
+        <div id="header-placeholder"></div>
+        
+        <main class="info-main">
+            <section class="info-hero">
+                <h1 id="info-page-title">Information</h1>
+                <p>Everything you need to know about our services and policies.</p>
+            </section>
+
+            <div class="info-container">
+                <aside class="info-sidebar">
+                    <nav>
+                        <a href="#faq" class="info-nav-link active" data-target="faq">FAQ</a>
+                        <a href="#careers" class="info-nav-link" data-target="careers">Careers</a>
+                        <a href="#payment" class="info-nav-link" data-target="payment">Payment Options</a>
+                        <a href="#refunds" class="info-nav-link" data-target="refunds">Refunds & Exchanges</a>
+                        <a href="#liability" class="info-nav-link" data-target="liability">Legal Liability</a>
+                    </nav>
+                </aside>
+
+                <div class="info-content">
+                    <!-- FAQ -->
+                    <section id="faq" class="info-section active">
+                        <h2>Frequently Asked Questions</h2>
+                        <div class="faq-item">
+                            <h3>Where do you source your beans?</h3>
+                            <p>We source our beans directly from sustainable farms in Ethiopia, Colombia, and Brazil, ensuring the highest quality and fair compensation for farmers.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h3>Do you offer international shipping?</h3>
+                            <p>Yes, we ship our premium beans worldwide. Delivery times vary by region but typically take 5-10 business days.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h3>Can I change my order after placing it?</h3>
+                            <p>Orders can be modified within 2 hours of placement. Please contact our support team immediately if you need to make changes.</p>
+                        </div>
+                    </section>
+
+                    <!-- Careers -->
+                    <section id="careers" class="info-section">
+                        <h2>Join Our Team</h2>
+                        <p>We're always looking for passionate baristas, roasters, and coffee lovers to join the elzaCoffee family.</p>
+                        <div class="job-card">
+                            <h3>Head Barista</h3>
+                            <p>Location: New York, NY | Full-Time</p>
+                            <a href="mailto:careers@elzacoffee.com" class="btn-primary">Apply Now</a>
+                        </div>
+                        <div class="job-card">
+                            <h3>Coffee Roaster</h3>
+                            <p>Location: Seattle, WA | Full-Time</p>
+                            <a href="mailto:careers@elzacoffee.com" class="btn-primary">Apply Now</a>
+                        </div>
+                    </section>
+
+                    <!-- Payment -->
+                    <section id="payment" class="info-section">
+                        <h2>Payment Options</h2>
+                        <p>We accept a wide variety of payment methods to make your experience seamless:</p>
+                        <ul>
+                            <li>Major Credit Cards (Visa, Mastercard, AMEX)</li>
+                            <li>Digital Wallets (Apple Pay, Google Pay)</li>
+                            <li>PayPal</li>
+                            <li>Direct Bank Transfers (for wholesale orders)</li>
+                        </ul>
+                    </section>
+
+                    <!-- Refunds -->
+                    <section id="refunds" class="info-section">
+                        <h2>Refunds & Exchanges</h2>
+                        <p>Your satisfaction is our priority. If you're not happy with your purchase, we're here to help.</p>
+                        <h3>Beans & Perishables</h3>
+                        <p>Due to the nature of roasted coffee, we do not accept returns. However, if there is an issue with your order, contact us for a replacement or store credit.</p>
+                        <h3>Equipment</h3>
+                        <p>Unopened equipment can be returned within 30 days for a full refund.</p>
+                    </section>
+
+                    <!-- Liability -->
+                    <section id="liability" class="info-section">
+                        <h2>Limitation Of Liability</h2>
+                        <p>Elza Coffee shall not be liable for any indirect, incidental, or consequential damages resulting from the use or inability to use our products or services.</p>
+                        <p>Our maximum liability to you for any cause whatsoever will at all times be limited to the amount paid, if any, by you to us for the product or service during the term of your membership.</p>
+                    </section>
+                </div>
+            </div>
+        </main>
+
+        <div id="footer-placeholder"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="js/api-config.js?v=1.2"></script>
+    <script src="js/header.js?v=1.2"></script>
+    <script src="js/cart.js?v=1.2"></script>
+    <script src="js/renderer.js?v=1.2"></script>
+    <script src="js/info.js?v=1.2"></script>
+</body>
+</html>
