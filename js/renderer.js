@@ -47,6 +47,24 @@ async function initApp() {
     // Load Cart Modal
     await loadComponent('cart-modal-placeholder', 'html/cart-modal.html');
 
+    // Load Error Modal
+    await loadComponent('error-modal-placeholder', 'html/error-modal.html');
+    if (window.initErrorModal) window.initErrorModal();
+
+    // Load Checkout Modal
+    await loadComponent('checkout-modal-placeholder', 'html/checkout-modal.html');
+
+    // Load Product Detail Modal
+    await loadComponent('product-detail-modal-placeholder', 'html/product-detail-modal.html');
+    if (window.initProductDetailModal) window.initProductDetailModal();
+
+    // Load Cart Restore Modal
+    await loadComponent('cart-restore-modal-placeholder', 'html/cart-restore-modal.html');
+
+
+
+
+
     // Load Header
     await loadComponent('header-placeholder', 'html/header.html');
     
@@ -92,6 +110,9 @@ async function initApp() {
 
     // Load Menu
     await loadComponent('menu-placeholder', 'html/menu.html');
+    if (window.initPopularMenu) {
+        window.initPopularMenu();
+    }
 
     // Load Blog
     await loadComponent('blog-placeholder', 'html/blog.html');
